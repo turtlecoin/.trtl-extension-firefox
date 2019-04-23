@@ -170,5 +170,5 @@ function rotateApiHost() {
     apiBaseUrlIndex = 0;
   }
 
-  console.info('BDNS: switched to API server #' + apiBaseUrlIndex + ' at ' + (new Date).toTimeString()); //-
+  console.info('TRTL-DNS: switched to API server #' + apiBaseUrlIndex + ' at ' + (new Date).toTimeString()); //-
 }

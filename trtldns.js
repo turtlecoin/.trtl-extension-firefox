@@ -112,14 +112,14 @@ cache.onDomainDelete = function (domain) {
 browser.proxy.registerProxyScript('pac.js');
 
 browser.proxy.onProxyError.addListener(function (error) {
-  console.error('BDNS: PAC error: ' + error.message);
+  console.error('TRTL-DNS: PAC error: ' + error.message);
 });
 
 browser.webRequest.onCompleted.addListener(function (details) {
   var url = parseURL(details.url);
 
   if (url) {
-    console.log('BDNS: #' + details.requestId + ' (' + url.domain + '): completed, ' + details.statusCode); //-
+    console.log('TRTL-DNS: #' + details.requestId + ' (' + url.domain + '): completed, ' + details.statusCode); //-
 
     // Keep visiting IPs in cache (see the note about update() on top).
     cache.setVisited(url.domain);
@@ -135,7 +135,7 @@ browser.webRequest.onBeforeRequest.addListener(function (details) {
     var ips = cache.ips(url.domain);
 
     if (ips) {
-      console.log('BDNS: #' + details.requestId + ' (' + url.domain + '): already resolved to ' + ips + '; cache size = ' + cache.length); //-
+      console.log('TRTL-DNS: #' + details.requestId + ' (' + url.domain + '): already resolved to ' + ips + '; cache size = ' + cache.length); //-
 
       if (ips.length) {
         // Return nothing to let browser use PAC's proxy. However, in some cases
@@ -146,7 +146,7 @@ browser.webRequest.onBeforeRequest.addListener(function (details) {
         return {cancel: true};
       }
     } else {
-      console.log('BDNS: #' + details.requestId + ' (' + url.domain + '): resolving at ' + (new Date).toTimeString() + ', full URL: ' + url.url); //-
+      console.log('TRTL-DNS: #' + details.requestId + ' (' + url.domain + '): resolving at ' + (new Date).toTimeString() + ', full URL: ' + url.url); //-
 
       return new Promise(function (resolve, reject) {
         resolveViaAPI(url.domain, true, function (ips) {
@@ -166,7 +166,7 @@ browser.webRequest.onBeforeRequest.addListener(function (details) {
           } else {
             cache.set(url.domain, ips);
 
-            console.log('BDNS: #' + details.requestId + ': originUrl: ' + details.originUrl); //-
+            console.log('TRTL-DNS: #' + details.requestId + ': originUrl: ' + details.originUrl); //-
 
             // This check is supposed to inform the user when a page embeds a resource
             // (e.g. <img>) from a B-TLD that wasn't yet resolved. But Firefox does not
@@ -199,7 +199,7 @@ browser.webRequest.onErrorOccurred.addListener(function (details) {
 
   var req = details.requestId;
   var url = parseURL(details.url);
-  console.log('BDNS: #' + req + ' (' + url.domain + '): ' + details.error); //-
+  console.log('TRTL-DNS: #' + req + ' (' + url.domain + '): ' + details.error); //-
 
   // NS_BINDING_ABORTED - User-cancelled.
   switch (details.error) {
@@ -235,7 +235,7 @@ browser.webRequest.onErrorOccurred.addListener(function (details) {
       showNotification(url.domain + ' ' + msg);
 
       if (cache.isExpired(url.domain, downCacheTTL)) {
-        console.log('BDNS: ' + url.domain + ': down, removing to refetch'); //-
+        console.log('TRTL-DNS: ' + url.domain + ': down, removing to refetch'); //-
         cache.delete(url.domain);
       }
     }
@@ -248,7 +248,7 @@ browser.alarms.create({periodInMinutes: 1});
 
 browser.alarms.onAlarm.addListener(function () {
   var count = cache.prune();
-  console.log('BDNS: deleted ' + count + ' expired entries; cache size = ' + cache.length); //-
+  console.log('TRTL-DNS: deleted ' + count + ' expired entries; cache size = ' + cache.length); //-
 });
 
 browser.tabs.onUpdated.addListener(function (id, changeInfo) {
@@ -257,7 +257,7 @@ browser.tabs.onUpdated.addListener(function (id, changeInfo) {
   if (url) {
     var supported = isSupportedTLD(url.tld);
 
-    console.info('BDNS: tab #' + id + ' updated to ' + (supported ? '' : 'un') + 'supported TLD, domain: ' + url.domain); //-
+    console.info('TRTL-DNS: tab #' + id + ' updated to ' + (supported ? '' : 'un') + 'supported TLD, domain: ' + url.domain); //-
 
     browser.browserAction[!supported ? 'enable' : 'disable'](id);
   }
@@ -265,6 +265,6 @@ browser.tabs.onUpdated.addListener(function (id, changeInfo) {
 
 browser.browserAction.onClicked.addListener(function () {
   browser.tabs.create({
-    url: "https://blockchain-dns.info"
+    url: "https://trtlnic.com"
   });
 });
