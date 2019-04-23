@@ -52,15 +52,7 @@
 
 // Update manifest when this list is changed.
 var apiBaseURLs = [
-  'https://bdns.at/r/',
-  'https://bdns.by/r/',
-  'https://bdns.co/r/',
-  'https://bdns.im/r/',
-  'https://bdns.io/r/',
-  'https://bdns.link/r/',
-  'https://bdns.nu/r/',
-  'https://bdns.pro/r/',
-  'https://b-dns.se/r/',
+'https://dns.trtlnic.com/',
 ];
 
 var apiBaseUrlIndex = Math.floor(Math.random() * apiBaseURLs.length);
@@ -75,6 +67,8 @@ var allURLs = {
     // ws(s):// - Chrome 58+, not supported by Firefox yet.
     // ws(s):// removed because they upset AMO review staff and Google's
     // uploader when present in manifest.json.
+    // TurtleCoin
+    "*://*.trtl/*", "ftp://*.trtl/*",
     // Namecoin
     "*://*.bit/*",    "ftp://*.bit/*",
     // Emercoin
@@ -132,11 +126,11 @@ function resolveViaAPI(domain, async, done) {
   xhr.onreadystatechange = function () {
     var ips = (xhr.responseText || '').trim();
 
-    console.info('BDNS: ' + domain + ': from ' + apiBase + ': readyState=' + xhr.readyState + ', status=' + xhr.status + ', response=' + ips.replace(/\r?\n/g, ',')); //-
+    console.info('TRTL-DNS: ' + domain + ': from ' + apiBase + ': readyState=' + xhr.readyState + ', status=' + xhr.status + ', response=' + ips.replace(/\r?\n/g, ',')); //-
 
     if (xhr.readyState == 4) {
-      if (xhr.status == 200 && ips.match(/^[\d.\r\n]+$/)) {
-        ips = ips.split(/\r?\n/);
+      if (xhr.status == 200) {
+        ips = JSON.parse(ips);
         done(ips);
       } else if (xhr.status == 404 && ips == 'nx') {
         done([]);
@@ -151,7 +145,7 @@ function resolveViaAPI(domain, async, done) {
 
   xhr.ontimeout = function () {
     apiTimeout = Math.min(apiTimeout * 1.5, 30000);
-    console.warn('BDNS: ' + domain + ': resolver has timed out, increasing timeout to ' + apiTimeout + 'ms'); //-
+    console.warn('TRTL-DNS: ' + domain + ': resolver has timed out, increasing timeout to ' + apiTimeout + 'ms'); //-
     // Error handled is called from onreadystatechange.
   };
 
