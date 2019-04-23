@@ -156,7 +156,7 @@ function resolveViaAPI(domain, async, done) {
   }
 
   try {
-    var apiURL = apiBase + encodeURIComponent(domain);
+    var apiURL = apiBase + encodeURIComponent(domain) + '/a';
     xhr.open("GET", apiURL, async);
     xhr.send();
     return xhr;
