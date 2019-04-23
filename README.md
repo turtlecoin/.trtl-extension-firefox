@@ -10,6 +10,10 @@ For the list of OpenNIC support domain names see the [full list](https://wiki.op
 
 --------
 
+## Installating Production Version
+
+Download the extension from the Firefox Addons site: [.trtl DNS](https://addons.mozilla.org/en-US/firefox/addon/trtl-dns/)
+
 ## Installing Debug Version
 
 1. Open Add-ons Manager tab: click on the button with 3 horizontal lines, then click on _Add-ons_ button.
