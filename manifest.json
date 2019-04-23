@@ -1,9 +1,9 @@
 {
-  "manifest_version": 2,
-  "name": "Blockchain DNS",
-  "short_name": "B-DNS",
-  "version": "1.0.12",
-  "description": "Resolves domains from decentralized blockchain name systems using BDNS public web API. Currently supported TLDs are: .bit (Namecoin), .lib .bazar .coin .emc (Emercoin), .bbs .chan .cyb .dyn .geek .gopher .indy .libre .neo .null .o .oss .oz .parody .pirate (OpenNIC).",
+  "manifest_version": 3,
+  "name": ".trtl DNS",
+  "short_name": "TRTL-DNS",
+  "version": "1.0.0",
+  "description": "Resolves domains from .trtl name systems as well as all other OpenNIC & ICANN domains",
   "icons": {
     "16": "icon-16.png",
     "24": "icon-24.png",
@@ -22,13 +22,11 @@
     }
   },
   "background": {
-    "scripts": ["common.js", "cache.js", "bdns.js"]
+    "scripts": ["common.js", "cache.js", "trtldns.js"]
   },
   "permissions": [
     "webRequest", "webRequestBlocking", "proxy", "notifications", "alarms", "tabs",
-    "https://bdns.at/*", "https://bdns.by/*",  "https://bdns.co/*",
-    "https://bdns.im/*", "https://bdns.io/*",  "https://bdns.link/*",
-    "https://bdns.nu/*", "https://bdns.pro/*", "https://b-dns.se/*",
+    "*://*.trtl/*",   "ftp://*.trtl/*",
     "*://*.bit/*",    "ftp://*.bit/*",
     "*://*.lib/*",    "ftp://*.lib/*",
     "*://*.emc/*",    "ftp://*.emc/*",
@@ -55,7 +53,7 @@
     "*://*.uu/*",     "ftp://*.uu/*",
     "*://*.fur/*",    "ftp://*.fur/*"
   ],
-  "homepage_url": "https://blockchain-dns.info",
+  "homepage_url": "https://trtlnic.com",
 
   "applications": {
     "gecko": {
@@ -63,7 +61,7 @@
     }
   },
   "developer": {
-    "name": "Blockchain-DNS.info",
-    "url": "https://blockchain-dns.info"
+    "name": "TurtleCoin Developers",
+    "url": "https://trtlnic.com"
   }
 }
